@@ -36,7 +36,9 @@ const float MAX_READING_21_bit = 2095104.0;
   int AnalogReadingmax = 4081;
   int AnalogReadingmin = 229;
 
-
+  String valString;
+  char cmd;
+  
   void Chronoamp() {
     Serial.println(" Chronoamperometry");
     delay(200);
@@ -86,12 +88,14 @@ const float MAX_READING_21_bit = 2095104.0;
   }
 
   void cyclic() {
-    Serial.println(" Cyclic Voltammetry");
+    int temp;
+    Serial.println("Cyclic Voltammetry");
     Serial.println("ENTER SCAN RATE");
     Serial.println("ALLOWED RANGE: 1 -250 mV/s");
     delay(200);
-      while (!Serial.available()) {;}
-    Scanrate = Serial.parseInt();
+    //while (!Serial.available()) {;}     
+    //Scanrate = Serial.parseInt();  
+    Scanrate = 100;  
     delay(200);
     Serial.print("Scan rate:  ");
     Serial.print(Scanrate);
@@ -103,9 +107,9 @@ const float MAX_READING_21_bit = 2095104.0;
     Serial.println ("Warning");
     Serial.println ("ALLOWED RANGE: -1.36 a +1.41 volts");
 
-    while (!Serial.available()) {;}
+    //while (!Serial.available()) {;}
 
-    StartPotential = Serial.parseFloat();
+    StartPotential = -1; //Serial.parseFloat();
     Startpot = (StartPotential -Vmax) * (255 -0) / (-Vmin -Vmax) + 0; //Potential to PWM values
     delay(200);
     Serial.print("Start Potential:  ");
@@ -117,9 +121,9 @@ const float MAX_READING_21_bit = 2095104.0;
     Serial.println ("Warning");
     Serial.println("ALLOWED RANGE: -1.36 a +1.41 volts");
 
-    while (!Serial.available()) {;}
+    //while (!Serial.available()) {;}
 
-    EndPotential = Serial.parseFloat();
+    EndPotential = 1; //Serial.parseFloat();
     Endpot = (EndPotential -Vmax) * (255 -0) / (-Vmin -Vmax) + 0; //Potential to PWM values
     delay(200);
     Serial.print("End Potential:  ");
@@ -130,7 +134,7 @@ const float MAX_READING_21_bit = 2095104.0;
     Serial.println (" Enter standby time");
     Serial.println ("Max 20 seconds");
 
-    while (!Serial.available()) {;}
+    //while (!Serial.available()) {;}
 
     Standtime = Serial.parseInt();
     int st = Standtime * 1000;
@@ -159,17 +163,37 @@ const float MAX_READING_21_bit = 2095104.0;
         Serial.print(" ");
         float tableC = (analog_reading -AnalogReadingmin) * (Imax + Imin) / (AnalogReadingmax -AnalogReadingmin) -Imin; //Convert value of analog reading to Current
         Serial.println(tableC, 3);
+
+        valString = "<";
+        valString.concat(tableP);
+        valString.concat(";");
+        valString.concat(tableC);
+        valString.concat(">");
+
+        Serial.println(valString);
+        
+
       }
       for ( PWM = Endpot ; PWM <= Startpot ; PWM++) {
         int bits_of_precision = 12;
         int num_samples = 16;
-        float analog_reading = adc.analogReadXXbit(Pinread, bits_of_precision, num_samples);analogWrite(PinPWM, PWM); // apply current potential to pin 9
+        float analog_reading = adc.analogReadXXbit(Pinread, bits_of_precision, num_samples);
+        analogWrite(PinPWM, PWM); // apply current potential to pin 9
         float tableP = (PWM -0) * (-Vmin -Vmax) / (255 -0) + Vmax; //Convert current value of PWM to Potential
         Serial.print(tableP);
         delay(Intervals);
         Serial.print(" ");
         float tableC = (analog_reading -AnalogReadingmin) * (Imax + Imin) / (AnalogReadingmax -AnalogReadingmin) -Imin; //Convert value of analog reading to Current.
-        Serial.println(tableC, 3);      
+        Serial.println(tableC, 3);    
+
+        valString = "<";
+        valString.concat(tableP);
+        valString.concat(";");
+        valString.concat(tableC);
+        valString.concat(">");   
+        Serial.println(valString);    
+
+
       }
       delay(1000);
       Serial.println("Please, copy data and after press CLEAR OUTPUT in serial monitor");
@@ -361,7 +385,7 @@ void setup() {
 }
 
 void loop() {
-  for(;;){
+  /*for(;;){
     Serial.println("Select technique: ");
     Serial.println("1 -CYCLIC VOLTAMMETRY ");
     Serial.println("2 -LINEAR SWEEP VOLTAMMETRY ");
@@ -383,5 +407,6 @@ void loop() {
        break;
        
        default: continue;}   
-    }
+    }*/
+    cyclic();
 }
