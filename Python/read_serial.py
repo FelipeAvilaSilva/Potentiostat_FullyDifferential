@@ -12,8 +12,8 @@ endMarker = '>'
 keyChars = "<>"
 message = ''
 
-nomeArquivo = datetime.now().strftime("%Y%m%d-%H%M%S") + ".txt"
-
+#nomeArquivo = datetime.now().strftime("%Y%m%d-%H%M%S") + ".txt"
+nomeArquivo = "hidrosens.txt"
 for onePort in ports:
     portsList.append(str(onePort))
     print(str(onePort))
