@@ -14,6 +14,6 @@ df['potencial'] = df['potencial'][::-1].reset_index(drop=True)
 # Criação do gráfico de voltametria cíclica usando a biblioteca Matplotlib
 plt.plot(df['potencial'], df.iloc[:, 1])
 plt.xlabel('Potencial (V)')
-plt.ylabel('Corrente (A)')
+plt.ylabel('Corrente (uA)')
 plt.title('Gráfico de Voltametria Cíclica')
 plt.show()

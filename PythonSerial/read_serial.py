@@ -33,7 +33,7 @@ while True:
     arquivo = open(nomeArquivo, "a+")
     time.sleep(0.01)
     if serialInst.in_waiting:
-        message = serialInst.readline().decode('utf').rstrip('\n')
+        message = serialInst.readline().decode('utf').rstrip('\t\n')
         #print(packet.decode('utf').rstrip('\n'))
         if (beginMarker in message and endMarker in message):        
             for character in keyChars:

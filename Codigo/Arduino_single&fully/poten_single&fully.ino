@@ -36,7 +36,7 @@ const float MAX_READING_21_bit = 2095104.0;
   int AnalogReadingmax = 4081;
   int AnalogReadingmin = 229;
 
-  String valString;
+  String valString = "";
   char cmd;
   
   void Chronoamp() {
@@ -158,18 +158,18 @@ const float MAX_READING_21_bit = 2095104.0;
         float analog_reading = adc.analogReadXXbit(Pinread, bits_of_precision, num_samples);
         analogWrite(PinPWM, PWM); // apply current potential to pin 9
         float tableP = (PWM -0) * (-Vmin -Vmax) / (255 -0) + Vmax; //Convert current value of PWM to PotentialSerial.
-        Serial.print(tableP);
+        //Serial.print(tableP);
         delay(Intervals);
         Serial.print(" ");
-        float tableC = (analog_reading -AnalogReadingmin) * (Imax + Imin) / (AnalogReadingmax -AnalogReadingmin) -Imin; //Convert value of analog reading to Current
-        Serial.println(tableC, 3);
+        float tableC = -((analog_reading -AnalogReadingmin) * (Imax + Imin) / (AnalogReadingmax -AnalogReadingmin) -Imin); //Convert value of analog reading to Current
+        //Serial.println(tableC, 3);
 
+        
         valString = "<";
         valString.concat(tableP);
         valString.concat(";");
         valString.concat(tableC);
         valString.concat(">");
-
         Serial.println(valString);
         
 
@@ -180,19 +180,20 @@ const float MAX_READING_21_bit = 2095104.0;
         float analog_reading = adc.analogReadXXbit(Pinread, bits_of_precision, num_samples);
         analogWrite(PinPWM, PWM); // apply current potential to pin 9
         float tableP = (PWM -0) * (-Vmin -Vmax) / (255 -0) + Vmax; //Convert current value of PWM to Potential
-        Serial.print(tableP);
+        //Serial.print(tableP);
         delay(Intervals);
         Serial.print(" ");
-        float tableC = (analog_reading -AnalogReadingmin) * (Imax + Imin) / (AnalogReadingmax -AnalogReadingmin) -Imin; //Convert value of analog reading to Current.
-        Serial.println(tableC, 3);    
+        float tableC = -((analog_reading -AnalogReadingmin) * (Imax + Imin) / (AnalogReadingmax -AnalogReadingmin) -Imin); //Convert value of analog reading to Current.
+        //Serial.println(tableC, 3);    
 
+        
         valString = "<";
         valString.concat(tableP);
         valString.concat(";");
         valString.concat(tableC);
         valString.concat(">");   
         Serial.println(valString);    
-
+        
 
       }
       delay(1000);
