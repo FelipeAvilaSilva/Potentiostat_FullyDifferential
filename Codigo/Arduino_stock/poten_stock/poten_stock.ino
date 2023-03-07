@@ -191,14 +191,16 @@ const float MAX_READING_21_bit = 2095104.0;
         valString.concat(tableP);
         valString.concat(";");
         valString.concat(tableC);
-        valString.concat(">"); 
-        valString.concat("<finish>");  
-        Serial.println(valString);    
+        valString.concat(">");
+        Serial.println(valString);                 
+            
         
 
-      }
+      }    
+
       delay(1000);
-      Serial.println("Please, copy data and after press CLEAR OUTPUT in serial monitor");
+      valString = "<finish>";
+      Serial.println(valString);       
       delay(500);
       Serial.println(" Enter 5 to return main menu");
       
