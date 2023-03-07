@@ -93,9 +93,9 @@ const float MAX_READING_21_bit = 2095104.0;
     Serial.println("ENTER SCAN RATE");
     Serial.println("ALLOWED RANGE: 1 -250 mV/s");
     delay(200);
-    while (!Serial.available()) {;}     
-    Scanrate = Serial.parseInt();  
-    //Scanrate = 100;  
+    //while (!Serial.available()) {;}     
+    //Scanrate = Serial.parseInt();  
+    Scanrate = 100;  
     delay(200);
     Serial.print("Scan rate:  ");
     Serial.print(Scanrate);
@@ -191,7 +191,8 @@ const float MAX_READING_21_bit = 2095104.0;
         valString.concat(tableP);
         valString.concat(";");
         valString.concat(tableC);
-        valString.concat(">");   
+        valString.concat(">"); 
+        valString.concat("<finish>");  
         Serial.println(valString);    
         
 

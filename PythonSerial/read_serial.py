@@ -3,6 +3,30 @@ import time
 import datetime
 from datetime import datetime
 
+def writetxt():
+    loop = True
+    while loop == True:        
+        arquivo = open(nomeArquivo, "a+")
+        time.sleep(0.01)      
+        if serialInst.in_waiting:
+            message = serialInst.readline().decode('utf').rstrip('\t\n')
+            #print(packet.decode('utf').rstrip('\n'))
+            if (beginMarker in message and endMarker in message):                
+                for character in keyChars:
+                    message = message.replace(character, "")
+                if (FlagChars in message):
+                    loop = False
+                for character in FlagChars:
+                    message = message.replace(character, "")                    
+                print(message)
+                arquivo.write(message)
+                serialInst.reset_input_buffer()
+                
+              
+
+      
+    
+
 ports = serial.tools.list_ports.comports()
 serialInst = serial.Serial()
 portsList = []
@@ -10,6 +34,7 @@ portsList = []
 beginMarker = '<'
 endMarker = '>'
 keyChars = "<>"
+FlagChars = "finish"
 message = ''
 
 #nomeArquivo = datetime.now().strftime("%Y%m%d-%H%M%S") + ".txt"
@@ -29,15 +54,8 @@ serialInst.baudrate = 9600
 serialInst.port = portVar
 serialInst.open()
 
-while True:
-    arquivo = open(nomeArquivo, "a+")
-    time.sleep(0.01)
-    if serialInst.in_waiting:
-        message = serialInst.readline().decode('utf').rstrip('\t\n')
-        #print(packet.decode('utf').rstrip('\n'))
-        if (beginMarker in message and endMarker in message):        
-            for character in keyChars:
-                message = message.replace(character, "")
-            print(message)
-            arquivo.write(message)
-            serialInst.reset_input_buffer()
+writetxt()
+print("caiu")
+
+
+
