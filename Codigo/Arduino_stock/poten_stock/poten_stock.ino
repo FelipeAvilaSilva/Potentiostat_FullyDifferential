@@ -93,8 +93,8 @@ const float MAX_READING_21_bit = 2095104.0;
     Serial.println("ENTER SCAN RATE");
     Serial.println("ALLOWED RANGE: 1 -250 mV/s");
     delay(200);
-    //while (!Serial.available()) {;}     
-    //Scanrate = Serial.parseInt();  
+    while (!Serial.available()) {;}     
+    Scanrate = Serial.parseInt();  
     Scanrate = 100;  
     delay(200);
     Serial.print("Scan rate:  ");
@@ -107,9 +107,9 @@ const float MAX_READING_21_bit = 2095104.0;
     Serial.println ("Warning");
     Serial.println ("ALLOWED RANGE: -1.36 a +1.41 volts");
 
-    //while (!Serial.available()) {;}
+    while (!Serial.available()) {;}
 
-    StartPotential = -1; //Serial.parseFloat();
+    StartPotential = Serial.parseFloat();
     Startpot = (StartPotential -Vmax) * (255 -0) / (-Vmin -Vmax) + 0; //Potential to PWM values
     delay(200);
     Serial.print("Start Potential:  ");
@@ -121,9 +121,9 @@ const float MAX_READING_21_bit = 2095104.0;
     Serial.println ("Warning");
     Serial.println("ALLOWED RANGE: -1.36 a +1.41 volts");
 
-    //while (!Serial.available()) {;}
+    while (!Serial.available()) {;}
 
-    EndPotential = 1; //Serial.parseFloat();
+    EndPotential = Serial.parseFloat();
     Endpot = (EndPotential -Vmax) * (255 -0) / (-Vmin -Vmax) + 0; //Potential to PWM values
     delay(200);
     Serial.print("End Potential:  ");
@@ -131,12 +131,12 @@ const float MAX_READING_21_bit = 2095104.0;
     delay(200);
     Serial.println("");
     Serial.println("");
-    Serial.println (" Enter standby time");
-    Serial.println ("Max 20 seconds");
+    //Serial.println (" Enter standby time");
+    //Serial.println ("Max 20 seconds");
 
     //while (!Serial.available()) {;}
 
-    Standtime = Serial.parseInt();
+    Standtime = 1;
     int st = Standtime * 1000;
     delay(200);
     Serial.print ("standby time:  ");
@@ -192,9 +192,7 @@ const float MAX_READING_21_bit = 2095104.0;
         valString.concat(";");
         valString.concat(tableC);
         valString.concat(">");
-        Serial.println(valString);                 
-            
-        
+        Serial.println(valString);    
 
       }    
 
@@ -204,7 +202,7 @@ const float MAX_READING_21_bit = 2095104.0;
       delay(500);
       Serial.println(" Enter 5 to return main menu");
       
-      while (!Serial.available()) {;}
+      //while (!Serial.available()) {;}
 
       int finish = Serial.parseInt();
       delay(2000); 
@@ -306,7 +304,7 @@ const float MAX_READING_21_bit = 2095104.0;
     Serial.println(" Enter standby time");
     Serial.println ("Max 20 seconds");
 
-    while (!Serial.available()) {;}
+    //while (!Serial.available()) {;}
 
     Standtime = Serial.parseInt();
     int st = Standtime * 1000;
@@ -389,11 +387,7 @@ void setup() {
 }
 
 void loop() {
-  /*for(;;){
-    Serial.println("Select technique: ");
-    Serial.println("1 -CYCLIC VOLTAMMETRY ");
-    Serial.println("2 -LINEAR SWEEP VOLTAMMETRY ");
-    Serial.println("3 -CHRONOAMPEROMETRY ");
+  for(;;){ 
 
     while (!Serial.available()) {;}
 
@@ -411,6 +405,5 @@ void loop() {
        break;
        
        default: continue;}   
-    }*/
-    cyclic();
+    }    
 }

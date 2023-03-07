@@ -53,7 +53,7 @@ def writegraph():
     plt.show()
 
     # Leitura do arquivo "hidrosens.txt" usando a biblioteca Pandas
-    df = pd.read_csv('hidrosens.txt', delimiter=';', skipinitialspace=True)
+    df = pd.read_csv(nomeArquivo, delimiter=';', skipinitialspace=True)
 
     # Criação de uma nova coluna de potencial para o gráfico
     df['potencial'] = df.iloc[:, 0]
@@ -75,7 +75,7 @@ def writegraph():
         'xanchor': 'center',
         'yanchor': 'top'},
     xaxis_title='Potencial (V)',
-    yaxis_title='Corrente (A)',
+    yaxis_title='Corrente (uA)',
     font=dict(size=16),
     hovermode='closest',
     dragmode='pan',
@@ -88,10 +88,8 @@ def writegraph():
                    x=1, y=0, showarrow=False, font=dict(size=12))
 
     # Salva a figura interativa como um arquivo HTML
-    fig.write_html(temp + "html")
+    fig.write_html(temp + ".html")
 
-      
-    
 
 ports = serial.tools.list_ports.comports()
 serialInst = serial.Serial()
@@ -121,10 +119,56 @@ serialInst.baudrate = 9600
 serialInst.port = portVar
 serialInst.open()
 
-writetxt()
-print("caiu")
-writegraph()
-print("caiu denovo")
+#writetxt()
+#print("caiu")
+#writegraph()
+#print("caiu denovo")
+
+while True:
+    print("\nSelecione uma técnica:")
+    print("1 - CYCLIC VOLTAMMETRY")
+    print("2 - LINEAR SWEEP VOLTAMMETRY")
+    print("3 - CHRONOAMPEROMETRY")
+    
+
+    # Espera pela entrada do usuário
+    while True:
+        try:
+            selection = int(input("Digite sua escolha: "))
+            if selection in [1, 2, 3]:
+                break
+            else:
+                print("Opção inválida! Tente novamente.")
+        except ValueError:
+            print("Entrada inválida! Tente novamente.")
+
+    # Envia a seleção para o Arduino
+    serialInst.write(str(selection).encode())
+    
+   
+    if selection == 1:        
+        selection = input("\nENTER SCAN RATE \nALLOWED RANGE: 1 -250 mV/s\n")
+        serialInst.write(str(selection).encode())
+        print("Scan rate:" + selection + "mV/s")
+
+        selection = input("\nEnter Start potential \nALLOWED RANGE: -1.36 a +1.41 volts\n")
+        serialInst.write(str(selection).encode())
+        print("Start Potential:" + str(selection) + "V")
+
+        selection = input("\nEnter End potential \nALLOWED RANGE: -1.36 a +1.41 volts\n")
+        serialInst.write(str(selection).encode())
+        print("End Potential:" + selection + "V\n")
+
+        print("Aguarde")
+        writetxt()
+        writegraph()
+        
+
+            
+
+        
+
+    
    
 
 
