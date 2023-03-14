@@ -7,8 +7,12 @@ import matplotlib.pyplot as plt
 import plotly.express as px
 import datetime as dt
 from datetime import datetime
+import re
 
 def writetxt():
+    scanRate = 0
+    startPotential = 0
+    EndPotential = 0
     loop = True
     while loop == True:        
         arquivo = open(nomeArquivo, "a+")
@@ -18,6 +22,23 @@ def writetxt():
             #print(packet.decode('utf').rstrip('\n'))            
             if (FlagChars in message):
                     loop = False
+
+            if (beginMarker2 in message and endMarker2 in message):
+                #message = "{string1, string2, string3}"  
+                padrao = r'\{(.*?)\}'
+
+                match = re.search(padrao, message)
+                if match:
+                    strings = match.group(1).split(';')
+                    strings = [s.strip() for s in strings if s.strip()]
+                    #print(strings)
+                    tmp0 = strings[0]
+                    tmp1 = strings[1]
+                    tmp2 = strings[2]
+                    #print(tmp0)
+                
+
+                
             if (beginMarker in message and endMarker in message):              
                 for character in keyChars:
                     message = message.replace(character, "")                              
@@ -97,6 +118,10 @@ portsList = []
 
 beginMarker = '<'
 endMarker = '>'
+
+beginMarker2 = '{'
+endMarker2 = '}'
+
 keyChars = "<>"
 FlagChars = '<finish>'
 message = ''
