@@ -20,20 +20,12 @@ const float MAX_READING_21_bit = 2095104.0;
   const int motorPin = 3;     // Its used at Linear sweep voltammetry to controlled rotational speedconst
   int Pinread = A0;
   const int PinPWM = 9;
-  const int PinPWMneg = 10;
   int Time;                   // Its used at Chronoamperometry to defined sampled time
-  int PWM;                    // Saved final value of applied potential in PWM values
+  int PWM = 0;                    // Saved final value of applied potential in PWM values  
   float StartPotential;       // These constants are used to store numerical values of potentials that user enters into serial monitor
   float EndPotential;
   int Startpot;
   int Endpot;
-
-  int PWMneg;
-  float StartPotentialneg;       // These constants are used to store numerical values of potentials that user enters into serial monitor
-  float EndPotentialneg;
-  int Startpotneg;
-  int Endpotneg;
-
   long Intervals;             //Time delay to obtain expected scan rate
   int Scanrate;               // scan rate
   float Standtime;            // waiting time before start experiment
@@ -45,6 +37,7 @@ const float MAX_READING_21_bit = 2095104.0;
   int AnalogReadingmin = 229;
 
   String valString = "";
+  String typeVolt = "";
   char cmd;
   
   void Chronoamp() {
@@ -95,65 +88,66 @@ const float MAX_READING_21_bit = 2095104.0;
     }      
   }
 
-  void cyclic() {
+  void cyclic() {    
     int temp;
+
     Serial.println("Cyclic Voltammetry");
     Serial.println("ENTER SCAN RATE");
-    Serial.println("ALLOWED RANGE: 1 -250 mV/s");
+    Serial.println("ALLOWED RANGE: 1 -250 mV/s");    
+    while (!Serial.available()) {;}     
+    Scanrate = Serial.parseInt();    
     delay(200);
-    //while (!Serial.available()) {;}     
-    //Scanrate = Serial.parseInt();  
-    Scanrate = 100;  
-    delay(200);
+
     Serial.print("Scan rate:  ");
     Serial.print(Scanrate);
     Serial.println ("mV/s");
     delay(200);
+
     Serial.println("");
     Serial.println("");
     Serial.println ("Enter start potential");
     Serial.println ("Warning");
     Serial.println ("ALLOWED RANGE: -1.36 a +1.41 volts");
-
-    //while (!Serial.available()) {;}
-
-    StartPotential = -1; //Serial.parseFloat();
-    Startpot = (StartPotential -Vmax) * (255 -0) / (-Vmin -Vmax) + 0; //Potential to PWM values
-
-    StartPotentialneg = -(StartPotential);
-    Startpotneg = (StartPotentialneg -Vmax) * (255 -0) / (-Vmin -Vmax) + 0; //Potential to -PWM values
-
-
+    while (!Serial.available()) {;}
+    StartPotential = Serial.parseFloat();
+    Startpot = (StartPotential -Vmax) * (255 -0) / (-Vmin -Vmax) + 0; //Potential to PWM values    
     delay(200);
+
     Serial.print("Start Potential:  ");
     Serial.println(StartPotential);
     delay(200);
+  
     Serial.println("");
     Serial.println("");
     Serial.println ("Enter end potential");
     Serial.println ("Warning");
     Serial.println("ALLOWED RANGE: -1.36 a +1.41 volts");
-
-    //while (!Serial.available()) {;}
-
-    EndPotential = 1; //Serial.parseFloat();
-    Endpot = (EndPotential -Vmax) * (255 -0) / (-Vmin -Vmax) + 0; //Potential to PWM values
-
-    EndPotentialneg = -(EndPotential);
-    Endpotneg = (EndPotentialneg -Vmax) * (255 -0) / (-Vmin -Vmax) + 0; //Potential to -PWM values
-
+    while (!Serial.available()) {;}
+    EndPotential = Serial.parseFloat();
+    Endpot = (EndPotential -Vmax) * (255 -0) / (-Vmin -Vmax) + 0; //Potential to PWM values 
     delay(200);
+
     Serial.print("End Potential:  ");
     Serial.println(EndPotential);
     delay(200);
+
     Serial.println("");
     Serial.println("");
-    Serial.println (" Enter standby time");
-    Serial.println ("Max 20 seconds");
+    //Serial.println (" Enter standby time");
+    //Serial.println ("Max 20 seconds");
 
     //while (!Serial.available()) {;}
+    typeVolt = "{";
+    typeVolt.concat(Scanrate);
+    typeVolt.concat(";");
+    typeVolt.concat(StartPotential);
+    typeVolt.concat(";");
+    typeVolt.concat(EndPotential);
+    typeVolt.concat("}");
+    Serial.println(typeVolt); 
+    
 
-    Standtime = Serial.parseInt();
+    Standtime = 1;
     int st = Standtime * 1000;
     delay(200);
     Serial.print ("standby time:  ");
@@ -167,16 +161,15 @@ const float MAX_READING_21_bit = 2095104.0;
     Serial.print(" ");
     Serial.println ("I (uA)");
     Serial.println (" ");
+  for(int i = 0; i < 5; i++){
     if (Startpot > Endpot) {
       Intervals = (1000000L / ((Scanrate) * 128L));//based in scanrate is determinated time delays to obtained this rate
-      PWMneg = Startpotneg;
-      for ( PWM = Startpot; PWM >= Endpot; PWM--) {        
+      for ( PWM = Startpot; PWM >= Endpot; PWM--) {
         int bits_of_precision = 12;
         int num_samples = 16;
         float analog_reading = adc.analogReadXXbit(Pinread, bits_of_precision, num_samples);
         analogWrite(PinPWM, PWM); // apply current potential to pin 9
-        analogWrite(PinPWMneg, PWMneg ); // apply current potential to pin 10
-        PWMneg++;
+        
         float tableP = (PWM -0) * (-Vmin -Vmax) / (255 -0) + Vmax; //Convert current value of PWM to PotentialSerial.
         //Serial.print(tableP);
         delay(Intervals);
@@ -194,15 +187,12 @@ const float MAX_READING_21_bit = 2095104.0;
         
 
       }
-      PWMneg = Endpotneg;
-      for ( PWM = Endpot ; PWM <= Startpot ; PWM++) {        
+      for ( PWM = Endpot ; PWM <= Startpot ; PWM++) {
         int bits_of_precision = 12;
         int num_samples = 16;
         float analog_reading = adc.analogReadXXbit(Pinread, bits_of_precision, num_samples);
         analogWrite(PinPWM, PWM); // apply current potential to pin 9
-        analogWrite(PinPWMneg, PWMneg ); // apply current potential to pin 10
-        PWMneg--;
-        float tableP = (PWM -0) * (-Vmin -Vmax) / (255 -0) + Vmax; //Convert current value of PWM to Potential       
+        float tableP = (PWM -0) * (-Vmin -Vmax) / (255 -0) + Vmax; //Convert current value of PWM to Potential
         //Serial.print(tableP);
         delay(Intervals);
         Serial.print(" ");
@@ -214,17 +204,19 @@ const float MAX_READING_21_bit = 2095104.0;
         valString.concat(tableP);
         valString.concat(";");
         valString.concat(tableC);
-        valString.concat(">");   
+        valString.concat(">");
         Serial.println(valString);    
-        
 
       }
-      delay(1000);
-      Serial.println("Please, copy data and after press CLEAR OUTPUT in serial monitor");
+         
+
+      /*delay(1000);
+      valString = "<finish>";
+      Serial.println(valString);       
       delay(500);
-      Serial.println(" Enter 5 to return main menu");
+      Serial.println(" Enter 5 to return main menu");*/
       
-      while (!Serial.available()) {;}
+      //while (!Serial.available()) {;}
 
       int finish = Serial.parseInt();
       delay(2000); 
@@ -263,7 +255,14 @@ const float MAX_READING_21_bit = 2095104.0;
       int finish = Serial.parseInt();
       delay(2000);
 
-      } else {;}        
+      } else {;}
+  }
+  delay(1000);
+      valString = "<finish>";
+      Serial.println(valString);       
+      delay(500);
+      Serial.println(" Enter 5 to return main menu");
+    PWM = 0;        
   }
 
 
@@ -326,7 +325,7 @@ const float MAX_READING_21_bit = 2095104.0;
     Serial.println(" Enter standby time");
     Serial.println ("Max 20 seconds");
 
-    while (!Serial.available()) {;}
+    //while (!Serial.available()) {;}
 
     Standtime = Serial.parseInt();
     int st = Standtime * 1000;
@@ -344,7 +343,7 @@ const float MAX_READING_21_bit = 2095104.0;
 
 
     if (Startpot > Endpot) {
-      Intervals = (1000000L / ((Scanrate) * 128L));//based in scanrate is determinated time delays to obtained this rate
+      Intervals = (1000000L / ((Scanrate) * 128L)); //based in scanrate is determinated time delays to obtained this rate
       for ( PWM = Startpot; PWM >= Endpot; PWM--) {
         int bits_of_precision = 12;
         int num_samples = 16;
@@ -405,21 +404,17 @@ void setup() {
   Serial.begin(9600);
   analogReference(1);
   pinMode(PinPWM, OUTPUT);
-  pinMode(Pinread, INPUT);
+  pinMode(Pinread, INPUT);  
 }
 
 void loop() {
-  /*for(;;){
-    Serial.println("Select technique: ");
-    Serial.println("1 -CYCLIC VOLTAMMETRY ");
-    Serial.println("2 -LINEAR SWEEP VOLTAMMETRY ");
-    Serial.println("3 -CHRONOAMPEROMETRY ");
+  for(;;){ 
 
     while (!Serial.available()) {;}
 
     switch (Serial.read()) {
-      case'1':
-        cyclic();
+       case'1':      
+        cyclic(); 
        break;
        
        case'2':
@@ -431,6 +426,5 @@ void loop() {
        break;
        
        default: continue;}   
-    }*/
-    cyclic();
+    }    
 }

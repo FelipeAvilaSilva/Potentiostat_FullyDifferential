@@ -16,7 +16,7 @@ def writetxt():
     loop = True
     while loop == True:        
         arquivo = open(nomeArquivo, "a+")
-        time.sleep(0.01)      
+        time.sleep(0.05)      
         if serialInst.in_waiting:
             message = serialInst.readline().decode('utf').rstrip('\t\n')            
             #print(packet.decode('utf').rstrip('\n'))            
@@ -188,14 +188,3 @@ while True:
         writetxt()
         writegraph()
         
-
-            
-
-        
-
-    
-   
-
-
-
-
