@@ -28,27 +28,32 @@ float Standtime; // waiting time before start experiment
 void Calibration() {
   Serial.println("First, potentiostat writes 255/0 on digital pin 9 for 5 seconds each time");
   Serial.println("In monitor serial you'll see two values, PWM corresponing to potential and analog reading corresponding to current");
-  int bits_of_precision = 10;
+  int bits_of_precision = 12;
   int num_samples = 1;
-  float analog_reading = adc.analogReadXXbit(Pinread, bits_of_precision,num_samples);
-  analogWrite(PinPWM, 255); // apply current potential to pin 9
+  //float analog_reading = adc.analogReadXXbit(Pinread, bits_of_precision,num_samples);
+  analogWrite(PinPWM, 255); // apply current potential to pin 9  
   Serial.println("For potential calibration: Watch potential in your multimeter (Vmin), this is the lower limit potential");
-  Serial.println("PWM : ");
-  Serial.print(255);
-  delay(30000);
+  Serial.print("PWM : ");
+  Serial.println(255);
+  delay(5000);
   Serial.println("For current calibration: Watch potential in your multimeter, with this you must obtained the lower limit current (Imin)");
   Serial.println("AnalogReadingmin :");
+  float analog_reading = adc.analogReadXXbit(Pinread, bits_of_precision,num_samples);
   Serial.println(analog_reading);
-  delay(1000);
-  analogWrite(PinPWM, 0); // apply current potential to pin 9
+  delay(10000);
+  Serial.println("");
+
+
+  analogWrite(PinPWM, 0); // apply current potential to pin 9  
   Serial.println("For potential calibration: Watch potential in your multimeter(Vmax), this is the higher limit potential");
-  Serial.println("PWM : ");
-  Serial.print(0);
-  delay(30000);
+  Serial.print("PWM : ");
+  Serial.println(0);
+  delay(5000);
   Serial.println("For current calibration: Watch potential in your multimeter, with this you must obtained the higher limit current (Imax)");
   Serial.println("AnalogReadingmax :");
+  analog_reading = adc.analogReadXXbit(Pinread, bits_of_precision,num_samples);
   Serial.print(analog_reading);
-  delay(1000);
+  delay(10000);
 }
 
 void setup() {
