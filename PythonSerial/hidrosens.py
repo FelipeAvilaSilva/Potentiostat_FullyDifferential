@@ -23,7 +23,8 @@ def create_plot(nomeArquivo):
         fig.update_layout(title_x=0.5)
         fig.update_xaxes(title_text='Potencial (V)')
         fig.update_yaxes(title_text='Corrente (uA)')
-        fig.add_annotation(text=f'Gerado em {datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")}', xref='paper', yref='paper', x=1, y=0, showarrow=False, font=dict(size=10))
+        fig.add_annotation(text=f'Gerado em {datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")}'
+        , xref='paper', yref='paper', x=1, y=0, showarrow=False, font=dict(size=10))
         fig.show()
         
     except Exception as e:

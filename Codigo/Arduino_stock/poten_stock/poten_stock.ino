@@ -168,7 +168,7 @@ const float MAX_READING_21_bit = 2095104.0;
     Serial.print(" ");
     Serial.println ("I (uA)");
     Serial.println (" ");
-  for(int i = 0; i < 1; i++){
+  for(int i = 0; i < 3; i++){
     if (Startpot > Endpot) {
       Intervals = (1000000L / ((Scanrate) * 128L));//based in scanrate is determinated time delays to obtained this rate
       for ( PWM = Startpot; PWM >= Endpot; PWM--) {
@@ -181,7 +181,7 @@ const float MAX_READING_21_bit = 2095104.0;
         //Serial.print(tableP);
         delay(Intervals);
         Serial.print(" ");
-        float tableC = ((analog_reading -AnalogReadingmin) * (Imax + Imin) / (AnalogReadingmax -AnalogReadingmin) -Imin); //Convert value of analog reading to Current
+        float tableC = -((analog_reading -AnalogReadingmin) * (Imax + Imin) / (AnalogReadingmax -AnalogReadingmin) -Imin); //Convert value of analog reading to Current
         //Serial.println(tableC, 3);
 
         
@@ -203,7 +203,7 @@ const float MAX_READING_21_bit = 2095104.0;
         //Serial.print(tableP);
         delay(Intervals);
         Serial.print(" ");
-        float tableC = ((analog_reading -AnalogReadingmin) * (Imax + Imin) / (AnalogReadingmax -AnalogReadingmin) -Imin); //Convert value of analog reading to Current.
+        float tableC = -((analog_reading -AnalogReadingmin) * (Imax + Imin) / (AnalogReadingmax -AnalogReadingmin) -Imin); //Convert value of analog reading to Current.
         //Serial.println(tableC, 3);    
 
         
