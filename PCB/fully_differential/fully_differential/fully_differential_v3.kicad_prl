@@ -1,7 +1,7 @@
 {
   "board": {
     "active_layer": 31,
-    "active_layer_preset": "",
+    "active_layer_preset": "All Layers",
     "auto_track_width": false,
     "hidden_netclasses": [],
     "hidden_nets": [],
@@ -64,11 +64,11 @@
       39,
       40
     ],
-    "visible_layers": "fffffff_80000001",
-    "zone_display_mode": 1
+    "visible_layers": "fffffff_ffffffff",
+    "zone_display_mode": 0
   },
   "meta": {
-    "filename": "fully_differential.kicad_prl",
+    "filename": "fully_differential_v3.kicad_prl",
     "version": 3
   },
   "project": {

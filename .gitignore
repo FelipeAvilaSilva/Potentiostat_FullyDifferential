@@ -29,3 +29,5 @@ bin-release/
 *.bin
 *.hex
 *.zip
+*.txt
+*.html
