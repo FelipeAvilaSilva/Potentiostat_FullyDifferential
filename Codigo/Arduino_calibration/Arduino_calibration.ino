@@ -29,10 +29,10 @@ void Calibration() {
 
   Serial.println("First, potentiostat writes 255/0 on digital pin 9 for 5 seconds each time");
   Serial.println("In monitor serial you'll see two values, PWM corresponing to potential and analog reading corresponding to current");
-  int bits_of_precision = 12;
+  int bits_of_precision = 13;
   int num_samples = 1;
   //float analog_reading = adc.analogReadXXbit(Pinread, bits_of_precision,num_samples);
-  analogWrite(PinPWM, 0); // apply current potential to pin 9  
+  analogWrite(PinPWM, 255); // apply current potential to pin 9  
   delay(5000);
   Serial.println("For potential calibration: Watch potential in your multimeter (Vmin), this is the lower limit potential");
   Serial.print("PWM : ");
@@ -45,12 +45,11 @@ void Calibration() {
   Serial.println("");
 
 
-  analogWrite(PinPWM, 255); // apply current potential to pin 9  
+  analogWrite(PinPWM, 0); // apply current potential to pin 9  
   delay(5000);
   Serial.println("For potential calibration: Watch potential in your multimeter(Vmax), this is the higher limit potential");
   Serial.print("PWM : ");
-  Serial.println(255);
-  delay(5000);
+  Serial.println(255);  
   Serial.println("For current calibration: Watch potential in your multimeter, with this you must obtained the higher limit current (Imax)");
   Serial.println("AnalogReadingmax :");
   analog_reading = adc.analogReadXXbit(Pinread, bits_of_precision,num_samples);
@@ -64,6 +63,7 @@ void setup() {
  analogReference(1);
  pinMode(PinPWM, OUTPUT);
  pinMode(Pinread, INPUT);
+ analogWrite(PinPWM, 0);
 }
 
 void loop() {
