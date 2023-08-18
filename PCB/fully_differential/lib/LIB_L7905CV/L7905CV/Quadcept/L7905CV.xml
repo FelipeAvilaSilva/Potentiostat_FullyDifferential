@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--/179532/1189128/2.50/3/3/Integrated Circuit/-->
+<quadcept_library>
+  <setting unit="mil" />
+  <textstyle name="Default" height="47.244094488189" strokewidth="7.8740157480315" charwidth="47.244094488189" />
+  <textstyle name="Dimension" height="19.6850393700787" strokewidth="0" charwidth="19.6850393700787" />
+  <textstyle name="H127W0635TH00762" height="50" strokewidth="3" charwidth="25" />
+  <textstyle name="H15W15TH02" height="59.0551181102362" strokewidth="7.8740157480315" charwidth="59.0551181102362" />
+  <padstyle name="c198_h132" surface="False" plated="True" isvia="False" nopaste="True" nomask="True" complex="False" holesize="51.968503937007">
+    <padshape layer="TOP" shape="round" width="77.952755905511" height="77.952755905511" />
+    <padshape layer="TOP_SOLDER_MASK" shape="round" width="85.826771653542" height="85.826771653542" />
+    <padshape layer="INNER" shape="round" width="77.952755905511" height="77.952755905511" />
+    <padshape layer="BOTTOM" shape="round" width="77.952755905511" height="77.952755905511" />
+    <padshape layer="BOTTOM_SOLDER_MASK" shape="round" width="85.826771653542" height="85.826771653542" />
+  </padstyle>
+  <padstyle name="s198_h132" surface="False" plated="True" isvia="False" nopaste="True" nomask="True" complex="False" holesize="51.968503937007">
+    <padshape layer="TOP" shape="square" width="77.952755905511" height="77.952755905511" />
+    <padshape layer="TOP_SOLDER_MASK" shape="square" width="85.826771653542" height="85.826771653542" />
+    <padshape layer="INNER" shape="round" width="77.952755905511" height="77.952755905511" />
+    <padshape layer="BOTTOM" shape="square" width="77.952755905511" height="77.952755905511" />
+    <padshape layer="BOTTOM_SOLDER_MASK" shape="square" width="85.826771653542" height="85.826771653542" />
+  </padstyle>
+  <footprint name="TO270P460X1020X2008-3P" originx="0" originy="0" pickpointx="0" pickpointy="0">
+    <pcbpin number="1" name="1" style="s198_h132" originx="0" originy="0" rotation="90" />
+    <pcbpin number="2" name="2" style="c198_h132" originx="106.29921259842" originy="0" rotation="90" />
+    <pcbpin number="3" name="3" style="c198_h132" originx="212.59842519685" originy="0" rotation="90" />
+    <line layer="TOP_PLACE_BOUND" originx="-108.26771653543" originy="130.70866141732" endx="320.86614173228" endy="130.70866141732" width="1.9685039370079" />
+    <line layer="TOP_PLACE_BOUND" originx="320.86614173228" originy="130.70866141732" endx="320.86614173228" endy="-70.078740157479" width="1.9685039370079" />
+    <line layer="TOP_PLACE_BOUND" originx="320.86614173228" originy="-70.078740157479" endx="-108.26771653543" endy="-70.078740157479" width="1.9685039370079" />
+    <line layer="TOP_PLACE_BOUND" originx="-108.26771653543" originy="-70.078740157479" endx="-108.26771653543" endy="130.70866141732" width="1.9685039370079" />
+    <line layer="TOP_ASSEMBLY" originx="-98.425196850392" originy="120.86614173228" endx="311.02362204724" endy="120.86614173228" width="3.9370078740157" />
+    <line layer="TOP_ASSEMBLY" originx="311.02362204724" originy="120.86614173228" endx="311.02362204724" endy="-60.23622047244" width="3.9370078740157" />
+    <line layer="TOP_ASSEMBLY" originx="311.02362204724" originy="-60.23622047244" endx="-98.425196850392" endy="-60.23622047244" width="3.9370078740157" />
+    <line layer="TOP_ASSEMBLY" originx="-98.425196850392" originy="-60.23622047244" endx="-98.425196850392" endy="120.86614173228" width="3.9370078740157" />
+    <line layer="TOP_ASSEMBLY" originx="-98.425196850392" originy="67.71653543307" endx="-45.275590551181" endy="120.86614173228" width="3.9370078740157" />
+    <line layer="TOP_SILKSCREEN" originx="311.02362204724" originy="-60.23622047244" endx="311.02362204724" endy="120.86614173228" width="7.8740157480314" />
+    <line layer="TOP_SILKSCREEN" originx="311.02362204724" originy="120.86614173228" endx="-98.425196850392" endy="120.86614173228" width="7.8740157480314" />
+    <line layer="TOP_SILKSCREEN" originx="-98.425196850392" originy="120.86614173228" endx="-98.425196850392" endy="0" width="7.8740157480314" />
+  </footprint>
+  <symbol name="L7905CV" originx="0" originy="0">
+    <line originx="200" originy="100" endx="700" endy="100" width="0" />
+    <line originx="700" originy="-300" endx="700" endy="100" width="0" />
+    <line originx="700" originy="-300" endx="200" endy="-300" width="0" />
+    <line originx="200" originy="100" endx="200" endy="-300" width="0" />
+    <sympin number="1" originx="200" originy="0" rotation="180" length="100" width="7.8740157480315" flipped="False">
+      <text name="pinname" originx="230" originy="0" style="Default" rotation="0" justify="left" flipped="False" hidden="False" data="GND" />
+      <text name="pindes" originx="140" originy="20" style="Default" rotation="0" justify="lowerright" flipped="False" hidden="False" data="1" />
+    </sympin>
+    <sympin number="2" originx="200" originy="-100" rotation="180" length="100" width="7.8740157480315" flipped="False">
+      <text name="pinname" originx="230" originy="-100" style="Default" rotation="0" justify="left" flipped="False" hidden="False" data="IN" />
+      <text name="pindes" originx="140" originy="-80" style="Default" rotation="0" justify="lowerright" flipped="False" hidden="False" data="2" />
+    </sympin>
+    <sympin number="3" originx="200" originy="-200" rotation="180" length="100" width="7.8740157480315" flipped="False">
+      <text name="pinname" originx="230" originy="-200" style="Default" rotation="0" justify="left" flipped="False" hidden="False" data="OUT" />
+      <text name="pindes" originx="140" originy="-180" style="Default" rotation="0" justify="lowerright" flipped="False" hidden="False" data="3" />
+    </sympin>
+  </symbol>
+  <component name="L7905CV" designatorprefix="IC" height="181.10236220472" footprint="TO270P460X1020X2008-3P">
+    <comppin designator="1" sympin="1" pinswap="0" gateswap="0" gate="1" group="1" side="" type="Power" name="GND" />
+    <comppin designator="2" sympin="2" pinswap="0" gateswap="0" gate="1" group="1" side="" type="Power" name="IN" />
+    <comppin designator="3" sympin="3" pinswap="0" gateswap="0" gate="1" group="1" side="" type="Power" name="OUT" />
+    <attached_symbol gate="1" name="L7905CV" />
+    <pinmap designator="1" footprintpin="1" />
+    <pinmap designator="2" footprintpin="2" />
+    <pinmap designator="3" footprintpin="3" />
+    <text name="Datasheet" originx="0" originy="0" style="Default" rotation="0" justify="" flipped="False" hidden="True" data="http://www.st.com/web/en/resource/technical/document/datasheet/CD00000450.pdf" />
+    <text name="Description" originx="0" originy="0" style="Default" rotation="0" justify="" flipped="False" hidden="True" data="L7905CV, Voltage Regulator, Negative 1.5A -5 V, 3-Pin TO-220" />
+    <text name="Mouser Part Number" originx="0" originy="0" style="Default" rotation="0" justify="" flipped="False" hidden="True" data="511-L7905CV" />
+    <text name="Mouser Price/Stock" originx="0" originy="0" style="Default" rotation="0" justify="" flipped="False" hidden="True" data="https://www.mouser.co.uk/ProductDetail/STMicroelectronics/L7905CV?qs=bZskSr8d5Y8JqSs%2FnmNLHA%3D%3D" />
+    <text name="Manufacturer_Name" originx="0" originy="0" style="Default" rotation="0" justify="" flipped="False" hidden="True" data="STMicroelectronics" />
+    <text name="Manufacturer_Part_Number" originx="750" originy="200" style="Default" rotation="0" justify="left" flipped="False" hidden="False" data="L7905CV" />
+  </component>
+</quadcept_library>

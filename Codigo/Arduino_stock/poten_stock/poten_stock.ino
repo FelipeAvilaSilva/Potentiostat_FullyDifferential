@@ -53,12 +53,15 @@ const float MAX_READING_21_bit = 2095104.0;
   int AnalogReadingmax = 3684;
   int AnalogReadingmin = 0;*/
 
-  float Vmax = 1.499;         //These constants are used to store numerical values resulting from Potential calibration. Signs are included in the respective equations.
-  float Vmin = 1.495;
-  float Imax = 681.81;        //These constants are used to store numerical values resulting from current calibration calibration. Signs are included in the respective equations.
+
+  float Vmax = 1.5;         
+  float Vmin = 1.5;
+  float Imax = 679.57;        
   float Imin = 679.57;
-  int AnalogReadingmax = 8184;
-  int AnalogReadingmin = 56;
+  int AnalogReadingmax = 1023;
+  int AnalogReadingmin = 7;
+
+
 
   String valString = "";
   String typeVolt = "";
@@ -188,9 +191,10 @@ const float MAX_READING_21_bit = 2095104.0;
   for(int i = 0; i < 1; i++){
     if (Startpot > Endpot) {
       Intervals = (1000000L / ((Scanrate) * 128L));//based in scanrate is determinated time delays to obtained this rate
+      
       for ( PWM = Startpot; PWM >= Endpot; PWM--) {
-        int bits_of_precision = 13;
-        int num_samples = 16;
+        int bits_of_precision = 10;
+        int num_samples = 1;
         float analog_reading = adc.analogReadXXbit(Pinread, bits_of_precision, num_samples);
         analogWrite(PinPWM, PWM); // apply current potential to pin 9
         
@@ -212,8 +216,8 @@ const float MAX_READING_21_bit = 2095104.0;
 
       }
       for ( PWM = Endpot ; PWM <= Startpot ; PWM++) {
-        int bits_of_precision = 13;
-        int num_samples = 16;
+        int bits_of_precision = 10;
+        int num_samples = 1;
         float analog_reading = adc.analogReadXXbit(Pinread, bits_of_precision, num_samples);
         analogWrite(PinPWM, PWM); // apply current potential to pin 9
         float tableP = (PWM -0) * (-Vmin -Vmax) / (255 -0) + Vmax; //Convert current value of PWM to Potential

@@ -1,0 +1,9 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP THP210DR
+D Operational Amplifiers - Op Amps High precision (40- V, 0.1 V/C), high-voltage (36-V), low-noise (3.7-nV/ Hz), fully-differential amp 8-SOIC -40 to 125
+K
+F https://www.ti.com/lit/gpn/THP210
+$ENDCMP
+#
+#End Doc Library

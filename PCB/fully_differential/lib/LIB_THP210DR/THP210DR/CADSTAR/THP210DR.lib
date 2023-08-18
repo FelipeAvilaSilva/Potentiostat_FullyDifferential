@@ -1,0 +1,16 @@
+.THP210DR :1 ;Operational Amplifiers - Op Amps High precision (40- V, 0.1 V/C), high-voltage (36-V), low-noise (3.7-nV/ Hz), fully-differential amp 8-SOIC -40 to 125
+SOIC127P600X175-8N
+*STM IC
+*NGS
+*PLB 1="IN-" 2="VOCM" 3="VS+" 4="OUT+" 5="OUT-" 6="VS-" 7="'PD'" 8="IN+"
+*MXP 8
+*DFN THP210DR
+~!Mouser Part Number (595-THP210DR)
+~!Link Mouser Price/Stock (https://www.mouser.co.uk/ProductDetail/Texas-Instruments/THP210DR?qs=eP2BKZSCXI6TpSz98mjAmQ%3D%3D)
+~!Manufacturer_Name (Texas Instruments)
+~!Manufacturer_Part_Number (THP210DR)
+~!Link Datasheet (https://www.ti.com/lit/gpn/THP210)
+~!Height (1.75mm)
+~!3D_Model (THP210DR)
+THP210DR
+1.1!U 2.1!U 3.1!U 4.1!U 8.1!U 7.1!U 6.1!U 5.1!U 
