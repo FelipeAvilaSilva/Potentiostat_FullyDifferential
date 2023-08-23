@@ -30,36 +30,13 @@ const float MAX_READING_21_bit = 2095104.0;
   int Scanrate;               // scan rate
   float Standtime;            // waiting time before start experiment
 
-  /* //10bits
-  float Vmax = 1.616;         //These constants are used to store numerical values resulting from Potential calibration. Signs are included in the respective equations.
-  float Vmin = 1.358;
-  float Imax = 637.61;        //These constants are used to store numerical values resulting from current calibration calibration. Signs are included in the respective equations.
-  float Imin = 623.85;
-  int AnalogReadingmax = 933;
-  int AnalogReadingmin = 0;*/
 
-  //13bits
-  /*float Vmax = 1.542;         //These constants are used to store numerical values resulting from Potential calibration. Signs are included in the respective equations.
-  float Vmin = 1.316;
-  float Imax = 681.81;        //These constants are used to store numerical values resulting from current calibration calibration. Signs are included in the respective equations.
-  float Imin = 590.90;
-  int AnalogReadingmax = 7526;
-  int AnalogReadingmin = 0;*/
-
-  /*float Vmax = 1.554;         //These constants are used to store numerical values resulting from Potential calibration. Signs are included in the respective equations.
-  float Vmin = 1.304;
-  float Imax = 706.36;        //These constants are used to store numerical values resulting from current calibration calibration. Signs are included in the respective equations.
-  float Imin = 592.72;
-  int AnalogReadingmax = 3684;
-  int AnalogReadingmin = 0;*/
-
-
-  float Vmax = 1.5;         
-  float Vmin = 1.5;
-  float Imax = 679.57;        
-  float Imin = 679.57;
-  int AnalogReadingmax = 1023;
-  int AnalogReadingmin = 7;
+  float Vmax = 1.789;      //These constants are used to store numerical values resulting from Potential calibration. Signs are included in the respective equations.
+  float Vmin = 1.281;
+  float Imax = 813.18;   //These constants are used to store numerical values resulting from current calibration calibration. Signs are included in the respective equations.
+  float Imin = 582.27;
+  int AnalogReadingmax = 3649;
+  int AnalogReadingmin = 0;
 
 
 
@@ -69,23 +46,23 @@ const float MAX_READING_21_bit = 2095104.0;
   
   void Chronoamp() {
     Serial.println(" Chronoamperometry");
-    delay(200);
-    Serial.println ("Enter fixed Potential ");
-    Serial.println ("ALLOWED RANGE: -1.36 a +1.41 volts");
+    delay(200); 
+    Serial.println ("Enter fixed Potential ");  
+    Serial.println ("ALLOWED RANGE: -1.36 a +1.41 volts ");
 
-    while (!Serial.available()) {;}
+    while (!Serial.available()) {;} 
 
-    StartPotential = Serial.parseFloat();
+    StartPotential = Serial.parseFloat(); 
     Startpot = (StartPotential -Vmax) * (255 -0) / (-Vmin -Vmax) + 0; //Potential to PWM values
-    delay(200);
-    Serial.print("Start Potential:  ");
-    Serial.println(StartPotential);
-    delay(200);
-    Serial.println ("Enter sampled time");
-    
-    while (!Serial.available()) {;}
-    
-    Serial.println ("Remember, to stop experiment enter 1");
+    delay(200); 
+    Serial.print("Start Potential:  "); 
+    Serial.println(StartPotential); 
+    delay(200); 
+    Serial.println ("Enter sampled time");  
+
+    while (!Serial.available()) {;} 
+
+    Serial.println ("Remember, to stop experiment enter  1");
     Time = Serial.parseFloat();
     delay(200);
     Serial.print("sampled time:  ");
@@ -98,7 +75,7 @@ const float MAX_READING_21_bit = 2095104.0;
 
 
     while (!Serial.available()) {
-      int bits_of_precision = 12;
+      int bits_of_precision = 10;
       int num_samples= 16;
       float analog_reading = adc.analogReadXXbit(Pinread, bits_of_precision, num_samples);
       float tableC = (analog_reading -AnalogReadingmin) * (Imax + Imin) / (AnalogReadingmax -AnalogReadingmin) -Imin; //Convert value of analog reading to CurrentSerial.println(tableC, 3);delay(Time);}
@@ -134,7 +111,7 @@ const float MAX_READING_21_bit = 2095104.0;
     Serial.println("");
     Serial.println ("Enter start potential");
     Serial.println ("Warning");
-    Serial.println ("ALLOWED RANGE: -1.49 a +1.49 volts");
+    Serial.println ("ALLOWED RANGE: -1.49 a +1.50 volts");
     while (!Serial.available()) {;}
     StartPotential = Serial.parseFloat();
     Startpot = (StartPotential -Vmax) * (255 -0) / (-Vmin -Vmax) + 0; //Potential to PWM values    
@@ -148,7 +125,7 @@ const float MAX_READING_21_bit = 2095104.0;
     Serial.println("");
     Serial.println ("Enter end potential");
     Serial.println ("Warning");
-    Serial.println("ALLOWED RANGE: -1.49 a +1.49 volts");
+    Serial.println("ALLOWED RANGE: -1.49 a +1.50 volts");
     while (!Serial.available()) {;}
     EndPotential = Serial.parseFloat();
     Endpot = (EndPotential -Vmax) * (255 -0) / (-Vmin -Vmax) + 0; //Potential to PWM values 
@@ -191,17 +168,17 @@ const float MAX_READING_21_bit = 2095104.0;
   for(int i = 0; i < 1; i++){
     if (Startpot > Endpot) {
       Intervals = (1000000L / ((Scanrate) * 128L));//based in scanrate is determinated time delays to obtained this rate
-      
       for ( PWM = Startpot; PWM >= Endpot; PWM--) {
-        int bits_of_precision = 10;
-        int num_samples = 1;
-        float analog_reading = adc.analogReadXXbit(Pinread, bits_of_precision, num_samples);
+        int bits_of_precision = 12;
+        int num_samples = 16;
+        
         analogWrite(PinPWM, PWM); // apply current potential to pin 9
         
         float tableP = (PWM -0) * (-Vmin -Vmax) / (255 -0) + Vmax; //Convert current value of PWM to PotentialSerial.
         //Serial.print(tableP);
         delay(Intervals);
         Serial.print(" ");
+        float analog_reading = adc.analogReadXXbit(Pinread, bits_of_precision, num_samples);
         float tableC = ((analog_reading -AnalogReadingmin) * (Imax + Imin) / (AnalogReadingmax -AnalogReadingmin) -Imin); //Convert value of analog reading to Current
         //Serial.println(tableC, 3);
 
@@ -216,14 +193,15 @@ const float MAX_READING_21_bit = 2095104.0;
 
       }
       for ( PWM = Endpot ; PWM <= Startpot ; PWM++) {
-        int bits_of_precision = 10;
-        int num_samples = 1;
-        float analog_reading = adc.analogReadXXbit(Pinread, bits_of_precision, num_samples);
+        int bits_of_precision = 12;
+        int num_samples = 16;
+        
         analogWrite(PinPWM, PWM); // apply current potential to pin 9
         float tableP = (PWM -0) * (-Vmin -Vmax) / (255 -0) + Vmax; //Convert current value of PWM to Potential
         //Serial.print(tableP);
         delay(Intervals);
         Serial.print(" ");
+        float analog_reading = adc.analogReadXXbit(Pinread, bits_of_precision, num_samples);
         float tableC = ((analog_reading -AnalogReadingmin) * (Imax + Imin) / (AnalogReadingmax -AnalogReadingmin) -Imin); //Convert value of analog reading to Current.
         //Serial.println(tableC, 3);    
 

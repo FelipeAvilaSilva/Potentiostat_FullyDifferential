@@ -29,8 +29,8 @@ void Calibration() {
 
   Serial.println("First, potentiostat writes 255/0 on digital pin 9 for 5 seconds each time");
   Serial.println("In monitor serial you'll see two values, PWM corresponing to potential and analog reading corresponding to current");
-  int bits_of_precision = 10;
-  int num_samples = 1;
+  int bits_of_precision = 12;
+  int num_samples = 16;
   //float analog_reading = adc.analogReadXXbit(Pinread, bits_of_precision,num_samples);
   analogWrite(PinPWM, 255); // apply current potential to pin 9  
   delay(5000);
