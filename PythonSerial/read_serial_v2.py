@@ -13,7 +13,7 @@ def  writetxt():
     loop = True
     while loop == True:        
         arquivo = open(nomeArquivo, "a+")
-        time.sleep(0.05)      
+        time.sleep(0.1)      
         if serialInst.in_waiting:
             message = serialInst.readline().decode('utf').rstrip('\t\n')            
 
@@ -124,7 +124,7 @@ for x in range(0,len(portsList)):
         portVar = "COM" + str(val)
         print(portVar)
 
-serialInst.baudrate = 9600
+serialInst.baudrate = 19200
 serialInst.port = portVar
 serialInst.open()
 
@@ -151,16 +151,19 @@ while True:
         serialInst.write(str(selection).encode())
         print("Scan rate: " + selection + " mV/s")
         scanRate = selection
+        time.sleep(1)
 
         selection = input("\nEnter Start potential \nALLOWED RANGE: -1.36 to +1.41 volts\n")
         serialInst.write(str(selection).encode())
         print("Start Potential: " + str(selection) + " V")
         startPotential = selection
+        time.sleep(1)
 
         selection = input("\nEnter End potential \nALLOWED RANGE: -1.36 to +1.41 volts\n")
         serialInst.write(str(selection).encode())
         print("End Potential: " + selection + " V\n")
         endPotential = selection
+        time.sleep(1)
 
         print("Aguarde")
         writetxt()
