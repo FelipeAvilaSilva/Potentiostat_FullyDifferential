@@ -109,31 +109,31 @@ while True:
     serialInst.write(str(selection).encode())
 
     if selection == 1:
-        selection = input("\nInclua SCAN RATE \nFaixa Permitida: 1 - 250 mV/s\n")
+        selection = input("\nInclua o SCAN RATE \nFaixa Permitida: 1 até 250 mV/s\n")
         serialInst.write(str(selection).encode())
         print("Scan rate = " + selection + " mV/s")
         scanRate = selection
         time.sleep(2)
 
-        selection = input("\nInclua Start potential \nFaixa Permitida: -Vmin to +Vmax volts\n")
+        selection = input("\nInclua o Start potential \nFaixa Permitida: -Vmin até +Vmax volts\n")
         serialInst.write(str(selection).encode())
         print("Start Potential = " + str(selection) + " V")
         startPotential = selection
         time.sleep(2)
 
-        selection = input("\nInclua End potential \nFaixa Permitida: -Vmin to +Vmax volts\n")
+        selection = input("\nInclua o End potential \nFaixa Permitida: -Vmin até +Vmax volts\n")
         serialInst.write(str(selection).encode())
         print("End Potential = " + selection + " V")
         endPotential = selection
         time.sleep(2)
 
-        selection = input("\nInclua Loop \nFaixa Permitida: Loop >= 1 \n")
+        selection = input("\nInclua o Loop \nFaixa Permitida: Loop >= 1 \n")
         serialInst.write(str(selection).encode())
         print("Loop = " + selection + "x\n")
         loop = selection
         time.sleep(2)
 
-        print("Aguarde")
+        print("Aguarde...")
         writetxt()
         writegraph(scanRate, startPotential, endPotential)
 
