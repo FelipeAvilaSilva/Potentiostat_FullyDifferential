@@ -10,7 +10,7 @@ from datetime import datetime
 import re
 
 def writetxt():
-    with open(nomeArquivo, "a+") as arquivo:
+    with open(nomeArquivo, "x+") as arquivo:
         while True:
             if serialInst.in_waiting:
                 message = serialInst.readline().decode('utf').rstrip('\t\n')
@@ -89,6 +89,8 @@ for x in range(0,len(portsList)):
 serialInst.baudrate = 19200
 serialInst.port = portVar
 serialInst.open()
+time.sleep(1)
+
 
 while True:
     print("\nSelecione uma técnica:")
@@ -113,19 +115,19 @@ while True:
         serialInst.write(str(selection).encode())
         print("Scan rate = " + selection + " mV/s")
         scanRate = selection
-        time.sleep(2)
+        time.sleep(2.5)
 
         selection = input("\nInclua o Start potential \nFaixa Permitida: -Vmin até +Vmax volts\n")
         serialInst.write(str(selection).encode())
         print("Start Potential = " + str(selection) + " V")
         startPotential = selection
-        time.sleep(2)
+        time.sleep(2.5)
 
         selection = input("\nInclua o End potential \nFaixa Permitida: -Vmin até +Vmax volts\n")
         serialInst.write(str(selection).encode())
         print("End Potential = " + selection + " V")
         endPotential = selection
-        time.sleep(2)
+        time.sleep(2.5)
 
         selection = input("\nInclua o Loop \nFaixa Permitida: Loop >= 1 \n")
         serialInst.write(str(selection).encode())
@@ -136,4 +138,55 @@ while True:
         print("Aguarde...")
         writetxt()
         writegraph(scanRate, startPotential, endPotential)
+
+    if selection == 2:
+        selection = input("\nInclua o SCAN RATE \nFaixa Permitida: 1 até 250 mV/s\n")
+        serialInst.write(str(selection).encode())
+        print("Scan rate = " + selection + " mV/s")
+        scanRate = selection
+        time.sleep(2.5)
+
+        selection = input("\nInclua o Start potential \nFaixa Permitida: -Vmin até +Vmax volts\n")
+        print("Perigo: Start < End potential")
+        serialInst.write(str(selection).encode())
+        print("Start Potential = " + str(selection) + " V")
+        startPotential = selection
+        time.sleep(2.5)
+
+        selection = input("\nInclua o End potential \nFaixa Permitida: -Vmin até +Vmax volts\n")
+        serialInst.write(str(selection).encode())
+        print("End Potential = " + selection + " V")
+        endPotential = selection
+        time.sleep(2.5)
+
+        selection = input("\nInclua o Loop \nFaixa Permitida: Loop >= 1 \n")
+        serialInst.write(str(selection).encode())
+        print("Loop = " + selection + "x\n")
+        loop = selection
+        time.sleep(2)
+
+        print("Aguarde...")
+        writetxt()
+        writegraph(scanRate, startPotential, endPotential)
+
+    if selection == 3:
+        selection = input("\nInclua o Start potential \nFaixa Permitida: -Vmin até +Vmax volts\n")
+        serialInst.write(str(selection).encode())
+        print("Start Potential = " + str(selection) + " V")
+        startPotential = selection
+        time.sleep(2.5)
+
+        selection = input("\nInclua o tempo total de leitura (Em Seg)\n")
+        serialInst.write(str(selection).encode())
+        print("Tempo = " + str(selection) + " S")
+        Delay = selection
+        time.sleep(2.5)
+
+        loop = 0
+
+        print("Aguarde...")
+        writetxt()      
+        writegraph(0, startPotential, 0)
+
+        
 
