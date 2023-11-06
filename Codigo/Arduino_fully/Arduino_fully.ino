@@ -293,12 +293,13 @@ void setup() {
   analogReference(1);
   pinMode(PinPWM, OUTPUT);
   pinMode(Pinread, INPUT);  
-  analogWrite(PinPWM, 0);
+  analogWrite(PinPWM, 128);
 }
 
 
 void loop() {
   for(;;){ 
+    analogWrite(PinPWM, 128);
     while (!Serial.available()) {;}
     switch (Serial.read()) {
        case'1':      

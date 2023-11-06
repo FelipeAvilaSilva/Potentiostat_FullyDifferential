@@ -53,6 +53,26 @@ def writegraph(scanRate, startPotential, endPotential):
     ax.set_title(f'Gráfico de Voltametria Cíclica\n\nScan Rate: {scanRate} mV/s | Start Potential: {startPotential} V | End Potential: {endPotential} V | Loop: {loop}', fontsize=10)
     plt.figtext(0.99, 0.01, f'Gerado em {dt.datetime.now().strftime("%d/%m/%Y %H:%M:%S")}', horizontalalignment='right')
     plt.show()
+    
+
+def writegraph2(scanRate, startPotential, endPotential):
+    df = pd.read_csv(nomeArquivo, delimiter=';', skipinitialspace=True)
+    df['potencial'] = df.iloc[:, 0]
+    df['potencial'] = df['potencial'][::1].reset_index(drop=True)
+
+    cores = ['blue' if df['potencial'][i] < df['potencial'][i+1] else 'red' for i in range(len(df)-1)]
+    cores.insert(0, 'blue')
+
+    fig, ax = plt.subplots()
+    for i in range(len(df)-1):
+        ax.plot([df['potencial'][i], df['potencial'][i+1]], [df.iloc[i, 1], df.iloc[i+1, 1]], color=cores[i], linewidth=1, solid_capstyle='round')
+
+    ax.set_xlabel('Potencial (V)')
+    ax.set_ylabel('Corrente (uA)')
+    ax.set_title(f'Gráfico de Voltametria Cíclica\n\nScan Rate: {scanRate} mV/s | Start Potential: {startPotential} V | End Potential: {endPotential} V | Loop: {loop}', fontsize=10)
+    plt.figtext(0.99, 0.01, f'Gerado em {dt.datetime.now().strftime("%d/%m/%Y %H:%M:%S")}', horizontalalignment='right')
+    plt.show()
+    
 
 
 
@@ -167,7 +187,7 @@ while True:
 
         print("Aguarde...")
         writetxt()
-        writegraph(scanRate, startPotential, endPotential)
+        writegraph2(scanRate, startPotential, endPotential)
 
     if selection == 3:
         selection = input("\nInclua o Start potential \nFaixa Permitida: -Vmin até +Vmax volts\n")
