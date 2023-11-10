@@ -20,6 +20,9 @@
   const float MAX_READING_20_bit = 1047552.0;
   const float MAX_READING_21_bit = 2095104.0;
 
+  int bits_of_precision = 12;
+  int num_samples = 16;
+
 
   int Pinread = A0;                         //variaveis dos metodos
   const int PinPWM = 9;
@@ -48,8 +51,8 @@
   float Vmin = 1.504;
   float Imax = 707.00;                                //These constants are used to store numerical values resulting from current calibration calibration. Signs are included in the respective equations.
   float Imin = 681.00;
-  int AnalogReadingmax = 1017;
-  int AnalogReadingmin = 0;
+  int AnalogReadingmax = 4092;
+  int AnalogReadingmin = 84;
 
 
   /*//calibração do circuito simulado                              SINGLE
@@ -86,9 +89,8 @@
     Time = (Serial.parseInt());
    
     //while (!Serial.available()) {    
-      for (int x = 1; x <= Time; x++){    
-        int bits_of_precision = 10;
-        int num_samples= 1;
+      for (int x = 1; x <= Time; x++){           
+        
         float analog_reading = adc.analogReadXXbit(Pinread, bits_of_precision, num_samples);      
         int tableP = x;
         float tableC = (analog_reading -AnalogReadingmin) * (Imax + Imin) / (AnalogReadingmax -AnalogReadingmin) -Imin; //Convert value of analog reading to CurrentSerial.println(tableC, 3);delay(Time);}
@@ -121,13 +123,15 @@
     while (!Serial.available()) {;}     
     int loop = Serial.parseInt();
     delay(2000);
+    
+    float temp = millis();
+    float analog_reading = adc.analogReadXXbit(Pinread, bits_of_precision, num_samples);
+    float temp2 = millis() - temp; 
 
     for (int i = 0; i < loop; i++){
       if (Startpot > Endpot) {
-        Intervals = (1000000L / ((Scanrate) * 128L));//based in scanrate is determinated time delays to obtained this rate
-        for (PWM = Startpot; PWM >= Endpot; PWM--) {
-          int bits_of_precision = 10;
-          int num_samples = 1;        
+        Intervals = ((1000000L / ((Scanrate) * 128L)) - temp2);//based in scanrate is determinated time delays to obtained this rate
+        for (PWM = Startpot; PWM >= Endpot; PWM--) {                 
           
           analogWrite(PinPWM, PWM); // apply current potential to pin 9        
           float tableP = (PWM -0) * (-Vmin -Vmax) / (255 -0) + Vmax; //Convert current value of PWM to PotentialSerial.
@@ -145,9 +149,7 @@
           valString.concat(">");
           Serial.println(valString); 
         }
-        for ( PWM = Endpot ; PWM <= Startpot ; PWM++) {
-          int bits_of_precision = 10;
-          int num_samples = 1;
+        for ( PWM = Endpot ; PWM <= Startpot ; PWM++) {         
         
           analogWrite(PinPWM, PWM); // apply current potential to pin 9
           float tableP = (PWM -0) * (-Vmin -Vmax) / (255 -0) + Vmax; //Convert current value of PWM to Potential
@@ -169,10 +171,8 @@
         analogWrite(PinPWM, 128);
          
       }else if (Startpot < Endpot) {
-        Intervals = (1000000L / ((Scanrate) * 128L));//based in scanrate is determinated time intervals to obtained this rate
-        for ( PWM = Startpot ; PWM <= Endpot ; PWM++) {
-          int bits_of_precision = 10;
-          int num_samples = 1;
+        Intervals = ((1000000L / ((Scanrate) * 128L)) - temp2);//based in scanrate is determinated time intervals to obtained this rate
+        for ( PWM = Startpot ; PWM <= Endpot ; PWM++) {          
         
           analogWrite(PinPWM, PWM); // apply current potential to pin 9        
           float tableP = (PWM -0) * (-Vmin -Vmax) / (255 -0) + Vmax; //Convert current value of PWM to PotentialSerial.
@@ -191,9 +191,7 @@
           Serial.println(valString);
 
         }for ( PWM = Endpot; PWM >= Startpot; PWM--) {
-          int bits_of_precision = 10;
-          int num_samples = 1;
-        
+               
           analogWrite(PinPWM, PWM); // apply current potential to pin 9
           float tableP = (PWM -0) * (-Vmin -Vmax) / (255 -0) + Vmax; //Convert current value of PWM to Potential
           //Serial.print(tableP);
@@ -238,9 +236,7 @@
       if (Startpot > Endpot) {
         Intervals = (1000000L / ((Scanrate) * 128L)); //based in scanrate is determinated time delays to obtained this rate
         for ( PWM = Startpot; PWM >= Endpot; PWM--) {
-          int bits_of_precision = 10;
-          int num_samples = 1;
-        
+                 
           analogWrite(PinPWM, PWM); // apply current potential to pin 9        
           float tableP = (PWM -0) * (-Vmin -Vmax) / (255 -0) + Vmax; //Convert current value of PWM to PotentialSerial.
           //Serial.print(tableP);
@@ -259,9 +255,7 @@
         }       
       }else if (Startpot < Endpot) {
         Intervals = (1000000L / ((Scanrate) * 128L));//based in scanrate is determinatedtime delays to obtained this rate
-        for ( PWM = Startpot ; PWM <= Endpot ; PWM++) {
-          int bits_of_precision = 10;
-          int num_samples = 1;
+        for ( PWM = Startpot ; PWM <= Endpot ; PWM++) {        
         
           analogWrite(PinPWM, PWM); // apply current potential to pin 9        
           float tableP = (PWM -0) * (-Vmin -Vmax) / (255 -0) + Vmax; //Convert current value of PWM to PotentialSerial.
@@ -289,8 +283,8 @@
 
 void setup() {
   TCCR1B = TCCR1B & B11111000 | B00000001;
-  Serial.begin(19200);
-  analogReference(1);
+  Serial.begin(115200);  
+  analogReference(DEFAULT);
   pinMode(PinPWM, OUTPUT);
   pinMode(Pinread, INPUT);  
   analogWrite(PinPWM, 128);
@@ -303,18 +297,15 @@ void loop() {
     while (!Serial.available()) {;}
     switch (Serial.read()) {
        case'1':      
-        cyclic(); 
-        analogWrite(PinPWM, 0);
+        cyclic();        
        break;
        
        case'2':
-        lineal();
-        analogWrite(PinPWM, 0);
+        lineal();        
        break;
        
        case'3':
-        Chronoamp();
-        analogWrite(PinPWM, 0);
+        Chronoamp();        
        break;
        
        default: continue;}   

@@ -106,7 +106,7 @@ for x in range(0,len(portsList)):
         portVar = "COM" + str(val)
         print(portVar)
 
-serialInst.baudrate = 19200
+serialInst.baudrate = 115200
 serialInst.port = portVar
 serialInst.open()
 time.sleep(1)
