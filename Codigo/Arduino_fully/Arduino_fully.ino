@@ -20,8 +20,8 @@
   const float MAX_READING_20_bit = 1047552.0;
   const float MAX_READING_21_bit = 2095104.0;
 
-  int bits_of_precision = 12;
-  int num_samples = 16;
+  int bits_of_precision = 10;
+  int num_samples = 1;
 
 
   int Pinread = A0;                         //variaveis dos metodos
@@ -51,8 +51,8 @@
   float Vmin = 1.504;
   float Imax = 707.00;                                //These constants are used to store numerical values resulting from current calibration calibration. Signs are included in the respective equations.
   float Imin = 681.00;
-  int AnalogReadingmax = 4092;
-  int AnalogReadingmin = 84;
+  int AnalogReadingmax = 1023;
+  int AnalogReadingmin = 10;
 
 
   /*//calibração do circuito simulado                              SINGLE
@@ -123,14 +123,14 @@
     while (!Serial.available()) {;}     
     int loop = Serial.parseInt();
     delay(2000);
-    
+
     float temp = millis();
     float analog_reading = adc.analogReadXXbit(Pinread, bits_of_precision, num_samples);
     float temp2 = millis() - temp; 
 
     for (int i = 0; i < loop; i++){
-      if (Startpot > Endpot) {
-        Intervals = ((1000000L / ((Scanrate) * 128L)) - temp2);//based in scanrate is determinated time delays to obtained this rate
+      if (Startpot > Endpot) {        
+        Intervals = ((1000000L / ((Scanrate) * 168L)) - temp2);//based in scanrate is determinated time delays to obtained this rate
         for (PWM = Startpot; PWM >= Endpot; PWM--) {                 
           
           analogWrite(PinPWM, PWM); // apply current potential to pin 9        

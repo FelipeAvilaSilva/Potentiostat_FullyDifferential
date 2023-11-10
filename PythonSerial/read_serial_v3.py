@@ -131,7 +131,7 @@ while True:
     serialInst.write(str(selection).encode())
 
     if selection == 1:
-        selection = input("\nInclua o SCAN RATE \nFaixa Permitida: 1 até 250 mV/s\n")
+        selection = input("\nInclua o SCAN RATE \nFaixa Permitida: 1 até 200 mV/s\n")
         serialInst.write(str(selection).encode())
         print("Scan rate = " + selection + " mV/s")
         scanRate = selection
