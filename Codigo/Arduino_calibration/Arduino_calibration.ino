@@ -71,7 +71,6 @@ void loop() {
     Serial.println("Calibration ");
     Serial.println("Press 1 to start ");
     Serial.println("Don't forget make properly connections for calibration");
-    delay(5000);
     while (!Serial.available()) {;}    
     switch (Serial.read()) {
       case'1':

@@ -8,6 +8,8 @@ import plotly.express as px
 import datetime as dt
 from datetime import datetime
 import re
+from scipy.signal import savgol_filter
+
 
 def writetxt():
     with open(nomeArquivo, "x+") as arquivo:
@@ -41,18 +43,24 @@ def writegraph(scanRate, startPotential, endPotential):
     df['potencial'] = df.iloc[:, 0]
     df['potencial'] = df['potencial'][::-1].reset_index(drop=True)
 
-    cores = ['blue' if df['potencial'][i] < df['potencial'][i+1] else 'red' for i in range(len(df)-1)]
+    # Suavização da linha usando filtro de Savitzky-Golay
+    window_size = 40  # Tamanho da janela, ajuste conforme necessário
+    polynomial_order = 3  # Ordem do polinômio, ajuste conforme necessário
+    df['potencial_smooth'] = savgol_filter(df['potencial'], window_size, polynomial_order)
+
+    cores = ['blue' if df['potencial_smooth'][i] < df['potencial_smooth'][i+1] else 'red' for i in range(len(df)-1)]
     cores.insert(0, 'blue')
 
     fig, ax = plt.subplots()
-    for i in range(len(df)-1):
-        ax.plot([df['potencial'][i], df['potencial'][i+1]], [df.iloc[i, 1], df.iloc[i+1, 1]], color=cores[i], linewidth=1, solid_capstyle='round')
+    for i in range(10, len(df)-1):  # Começa do índice 5
+        ax.plot([df['potencial_smooth'][i], df['potencial_smooth'][i+1]], [df.iloc[i, 1], df.iloc[i+1, 1]], color=cores[i], linewidth=1, solid_capstyle='round')
 
     ax.set_xlabel('Potencial (V)')
     ax.set_ylabel('Corrente (uA)')
     ax.set_title(f'Gráfico de Voltametria Cíclica\n\nScan Rate: {scanRate} mV/s | Start Potential: {startPotential} V | End Potential: {endPotential} V | Loop: {loop}', fontsize=10)
     plt.figtext(0.99, 0.01, f'Gerado em {dt.datetime.now().strftime("%d/%m/%Y %H:%M:%S")}', horizontalalignment='right')
     plt.show()
+
     
 
 def writegraph2(scanRate, startPotential, endPotential):
@@ -60,12 +68,15 @@ def writegraph2(scanRate, startPotential, endPotential):
     df['potencial'] = df.iloc[:, 0]
     df['potencial'] = df['potencial'][::1].reset_index(drop=True)
 
-    cores = ['blue' if df['potencial'][i] < df['potencial'][i+1] else 'red' for i in range(len(df)-1)]
+    # Suavização da linha
+    df_interpolated = df.interpolate()
+
+    cores = ['blue' if df_interpolated['potencial'][i] < df_interpolated['potencial'][i+1] else 'red' for i in range(len(df_interpolated)-1)]
     cores.insert(0, 'blue')
 
     fig, ax = plt.subplots()
-    for i in range(len(df)-1):
-        ax.plot([df['potencial'][i], df['potencial'][i+1]], [df.iloc[i, 1], df.iloc[i+1, 1]], color=cores[i], linewidth=1, solid_capstyle='round')
+    for i in range(len(df_interpolated)-1):
+        ax.plot([df_interpolated['potencial'][i], df_interpolated['potencial'][i+1]], [df_interpolated.iloc[i, 1], df_interpolated.iloc[i+1, 1]], color=cores[i], linewidth=1, solid_capstyle='round')
 
     ax.set_xlabel('Potencial (V)')
     ax.set_ylabel('Corrente (uA)')
