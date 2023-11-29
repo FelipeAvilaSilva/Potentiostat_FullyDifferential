@@ -3121,7 +3121,7 @@
   (symbol (lib_id "Device:R") (at 73.66 76.2 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 5d72874b-7d35-4beb-9b2f-d829200caec2)
-    (property "Reference" "R?" (at 73.66 74.295 90)
+    (property "Reference" "R?" (at 74.295 74.295 90)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "2K2" (at 73.66 76.2 90)
