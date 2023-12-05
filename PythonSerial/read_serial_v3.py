@@ -52,7 +52,7 @@ def writegraph(scanRate, startPotential, endPotential):
     cores.insert(0, 'blue')
 
     fig, ax = plt.subplots()
-    for i in range(10, len(df)-1):  # Começa do índice 5
+    for i in range(10, len(df)-1):  # Começa do índice 10
         ax.plot([df['potencial_smooth'][i], df['potencial_smooth'][i+1]], [df.iloc[i, 1], df.iloc[i+1, 1]], color=cores[i], linewidth=1, solid_capstyle='round')
 
     ax.set_xlabel('Potencial (V)')
