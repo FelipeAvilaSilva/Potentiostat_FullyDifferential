@@ -143,12 +143,12 @@
         for (PWM = Startpot; PWM >= Endpot; PWM--) {                 
           
           analogWrite(PinPWM, PWM); // apply current potential to pin 9        
-          float tableP = (PWM -0) * (-Vmin -Vmax) / (255 -0) + Vmax; //Convert current value of PWM to PotentialSerial.
+          float tableP = -((PWM -0) * (-Vmin -Vmax) / (255 -0) + Vmax); //Convert current value of PWM to PotentialSerial.
           //Serial.print(tableP);
           delay(Intervals);    
 
           float analog_reading = adc.analogReadXXbit(Pinread, bits_of_precision, num_samples);
-          float tableC = ((analog_reading -AnalogReadingmin) * (Imax + Imin) / (AnalogReadingmax -AnalogReadingmin) -Imin); //Convert value of analog reading to Current
+          float tableC = -((analog_reading -AnalogReadingmin) * (Imax + Imin) / (AnalogReadingmax -AnalogReadingmin) -Imin); //Convert value of analog reading to Current
           //Serial.println(tableC, 3);
         
           valString = "<";
@@ -161,12 +161,12 @@
         for ( PWM = Endpot ; PWM <= Startpot ; PWM++) {         
         
           analogWrite(PinPWM, PWM); // apply current potential to pin 9
-          float tableP = (PWM -0) * (-Vmin -Vmax) / (255 -0) + Vmax; //Convert current value of PWM to Potential
+          float tableP = -((PWM -0) * (-Vmin -Vmax) / (255 -0) + Vmax); //Convert current value of PWM to Potential
           //Serial.print(tableP);
           delay(Intervals);
         
           float analog_reading = adc.analogReadXXbit(Pinread, bits_of_precision, num_samples);
-          float tableC = ((analog_reading -AnalogReadingmin) * (Imax + Imin) / (AnalogReadingmax -AnalogReadingmin) -Imin); //Convert value of analog reading to Current.
+          float tableC = -((analog_reading -AnalogReadingmin) * (Imax + Imin) / (AnalogReadingmax -AnalogReadingmin) -Imin); //Convert value of analog reading to Current.
           //Serial.println(tableC, 3);    
         
           valString = "<";
@@ -184,12 +184,12 @@
         for ( PWM = Startpot ; PWM <= Endpot ; PWM++) {          
         
           analogWrite(PinPWM, PWM); // apply current potential to pin 9        
-          float tableP = (PWM -0) * (-Vmin -Vmax) / (255 -0) + Vmax; //Convert current value of PWM to PotentialSerial.
+          float tableP = -((PWM -0) * (-Vmin -Vmax) / (255 -0) + Vmax); //Convert current value of PWM to PotentialSerial.
           //Serial.print(tableP);
           delay(Intervals);
        
           float analog_reading = adc.analogReadXXbit(Pinread, bits_of_precision, num_samples);
-          float tableC = ((analog_reading -AnalogReadingmin) * (Imax + Imin) / (AnalogReadingmax -AnalogReadingmin) -Imin); //Convert value of analog reading to Current
+          float tableC = -((analog_reading -AnalogReadingmin) * (Imax + Imin) / (AnalogReadingmax -AnalogReadingmin) -Imin); //Convert value of analog reading to Current
           //Serial.println(tableC, 3);
         
           valString = "<";
@@ -202,12 +202,12 @@
         }for ( PWM = Endpot; PWM >= Startpot; PWM--) {
                
           analogWrite(PinPWM, PWM); // apply current potential to pin 9
-          float tableP = (PWM -0) * (-Vmin -Vmax) / (255 -0) + Vmax; //Convert current value of PWM to Potential
+          float tableP = -((PWM -0) * (-Vmin -Vmax) / (255 -0) + Vmax); //Convert current value of PWM to Potential
           //Serial.print(tableP);
           delay(Intervals);
         
           float analog_reading = adc.analogReadXXbit(Pinread, bits_of_precision, num_samples);
-          float tableC = ((analog_reading -AnalogReadingmin) * (Imax + Imin) / (AnalogReadingmax -AnalogReadingmin) -Imin); //Convert value of analog reading to Current.
+          float tableC = -((analog_reading -AnalogReadingmin) * (Imax + Imin) / (AnalogReadingmax -AnalogReadingmin) -Imin); //Convert value of analog reading to Current.
           //Serial.println(tableC, 3);    
         
           valString = "<";
@@ -305,6 +305,10 @@ void loop() {
     analogWrite(PinPWM, 128);
     while (!Serial.available()) {;}
     switch (Serial.read()) {
+       case'0':      
+        cyclic();        
+       break;
+
        case'1':      
         cyclic();        
        break;

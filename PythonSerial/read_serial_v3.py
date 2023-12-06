@@ -44,7 +44,7 @@ def writegraph(scanRate, startPotential, endPotential):
     df['potencial'] = df['potencial'][::-1].reset_index(drop=True)
 
     # Suavização da linha usando filtro de Savitzky-Golay
-    window_size = 40  # Tamanho da janela, ajuste conforme necessário
+    window_size = 10  # Tamanho da janela, ajuste conforme necessário
     polynomial_order = 3  # Ordem do polinômio, ajuste conforme necessário
     df['potencial_smooth'] = savgol_filter(df['potencial'], window_size, polynomial_order)
 
@@ -125,6 +125,7 @@ time.sleep(1)
 
 while True:
     print("\nSelecione uma técnica:")
+    print("0 - Teste Automático")    
     print("1 - Voltametria Cíclica")
     print("2 - Voltametria de Varredura Linear")
     print("3 - Cronoamperometria")
@@ -132,7 +133,7 @@ while True:
     while True:
         try:
             selection = int(input("Digite sua escolha: "))
-            if selection in [1, 2, 3]:
+            if selection in [0, 1, 2, 3]:
                 break
             else:
                 print("Opção inválida! Tente novamente.")
@@ -140,6 +141,25 @@ while True:
             print("Entrada inválida! Tente novamente.")
 
     serialInst.write(str(selection).encode())
+
+    if selection == 0:
+        print("Aguarde...")
+        scanRate = 100
+        serialInst.write(str(scanRate).encode())
+        time.sleep(2.5)
+        startPotential = -1.5
+        serialInst.write(str(startPotential).encode())
+        time.sleep(2.5)
+        endPotential = 1.5
+        serialInst.write(str(endPotential).encode())
+        time.sleep(2.5)
+        loop = 1
+        serialInst.write(str(loop).encode())
+        time.sleep(2)
+        print("Iniciando...")
+        writetxt()
+        writegraph(scanRate, startPotential, endPotential)
+        
 
     if selection == 1:
         selection = input("\nInclua o SCAN RATE \nFaixa Permitida: 1 até 200 mV/s\n")
