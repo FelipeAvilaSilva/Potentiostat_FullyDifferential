@@ -176,8 +176,7 @@
           valString.concat(">");
           Serial.println(valString);    
         }   
-        //int finish = Serial.parseInt();
-        analogWrite(PinPWM, 128);
+        //int finish = Serial.parseInt();        
          
       }else if (Startpot < Endpot) {
         Intervals = ((1000000L / ((Scanrate) * 168)) - temp2);//based in scanrate is determinated time intervals to obtained this rate
